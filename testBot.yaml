@@ -1,0 +1,3 @@
+quote_file: testQuotes.json
+bsky_account_env: STRATOPOST_ACCOUNT
+bsky_app_password_env: STRATOPOST_APP_PASSWORD
