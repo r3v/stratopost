@@ -4,7 +4,7 @@
 #
 #  DESCRIPTION: A bot for posting quotes to bluesky.
 #
-#  VERSION:     v1.0d4
+#  VERSION:     v1.0d5
 #
 #  GITHUB:      https://github.com/r3v/stratopost
 #
@@ -19,6 +19,7 @@ import os
 import json
 import random
 import yaml
+from datetime import datetime
 from pathlib import Path
 from atproto import Client, client_utils
 
@@ -63,17 +64,26 @@ client = Client()
 client.login(BSKY_ACCOUNT, BSKY_APP_PASSWORD)
 
 # Select a quote from quotefile
-with open(QUOTE_FILE, "r") as f:
+with open(QUOTE_FILE, "r+") as f:
 	quotes = json.load(f)
 
-if quotes["quotes"]:
-	quote_to_post = random.choice(quotes["quotes"])
+	if quotes["quotes"]:
+		quote_to_post = random.choice(quotes["quotes"])
 
-	# Build text to post # TODO: add hashtags
-	text_builder = client_utils.TextBuilder()
-	text_builder.text(quote_to_post["Quote_Text"])
+		# Build text to post # TODO: add hashtags
+		text_builder = client_utils.TextBuilder()
+		text_builder.text(quote_to_post["Quote_Text"])
 
-	# Post!
-	client.send_post(text_builder)
-else:
-	print("No quotes available to post.")
+		# Post!
+		client.send_post(text_builder)
+
+		# Update quote record
+		quote_to_post["Post_Count"] = str(int(quote_to_post["Post_Count"]) + 1)
+		quote_to_post["Last_Posted"] = datetime.now().strftime("%Y-%m-%d/%H:%M")
+
+		# Write updated quotes back to file
+		f.seek(0)
+		json.dump(quotes, f, indent=2)
+		f.truncate()
+	else:
+		print("No quotes available to post.")
