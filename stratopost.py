@@ -3,7 +3,7 @@
 #
 #  DESCRIPTION: A bot for posting quotes to bluesky.
 #
-#  VERSION:     v1.0d3
+#  VERSION:     v1.0d4
 #
 #  GITHUB:      https://github.com/r3v/stratopost
 #
@@ -36,8 +36,13 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
+# Resolve botfile path (relative paths are resolved against CONFIG_DIR)
+BOTFILE = args.botfile
+if not BOTFILE.is_absolute():
+	BOTFILE = CONFIG_DIR / BOTFILE
+
 # Load bot configuration
-with open(args.botfile, "r") as f:
+with open(BOTFILE, "r") as f:
 	config = yaml.safe_load(f)
 
 # Resolve quote file path (relative paths are resolved against CONFIG_DIR)
