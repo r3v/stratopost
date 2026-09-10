@@ -10,7 +10,7 @@ Bsky_App_Password_Env: STRATOPOST_APP_PASSWORD
 # The json file with the quotes. If no path is given, then stratopost.py will
 # look in $XDG_CONFIG_HOME/stratopost/ if it's set, and ~/.config/stratopost/ if
 # not. 
-Quote_File: testQuotes.json
+Quote_File: exampleQuotes.json
 
 # Additional post options. Setting a length limit longer than 300 may cause the
 # script to fail if a quote longer than the Bluesky post limit is selected. 
@@ -19,7 +19,7 @@ Post_Length_Limit: 300   # Only select quotes shorter than this value + hashtags
 
 # The bot will attempt to only use quotes that haven't been posted in the last
 # number of days as defined here. If there are no options that fit this
-# criteria, it will be ignored. 
+# criteria, it will be ignored. Setting to 0 turns off this check.
 Days_Till_Repeat: 7
 
 # Log settings.
