@@ -4,7 +4,7 @@
 #
 #  DESCRIPTION: A bot for posting quotes to bluesky.
 #
-#  VERSION:     v1.0d5
+#  VERSION:     v1.0d6
 #
 #  GITHUB:      https://github.com/r3v/stratopost
 #
@@ -48,12 +48,12 @@ with open(BOTFILE, "r") as f:
 	config = yaml.safe_load(f)
 
 # Resolve quote file path (relative paths are resolved against CONFIG_DIR)
-QUOTE_FILE = Path(config["quote_file"])
+QUOTE_FILE = Path(config["Quote_File"])
 if not QUOTE_FILE.is_absolute():
 	QUOTE_FILE = CONFIG_DIR / QUOTE_FILE
 
-BSKY_ACCOUNT_ENV = config["bsky_account_env"]
-BSKY_APP_PASSWORD_ENV = config["bsky_app_password_env"]
+BSKY_ACCOUNT_ENV = config["Bsky_Account_Env"]
+BSKY_APP_PASSWORD_ENV = config["Bsky_App_Password_Env"]
 
 # Retrieve bluesky account credentials from environment variables
 BSKY_ACCOUNT = os.getenv(BSKY_ACCOUNT_ENV)

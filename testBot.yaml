@@ -1,3 +1,30 @@
-quote_file: testQuotes.json
-bsky_account_env: STRATOPOST_ACCOUNT
-bsky_app_password_env: STRATOPOST_APP_PASSWORD
+# The name of the bot. This is for internal use only.
+Bot_Name: stratopost 
+
+# The Bluesky account credentials are expected to be found in these envorinment
+# variables. Change them to whatever you want, but make sure that the
+# envorinment that stratopost.py runs in can access them.
+Bsky_Account_Env: STRATOPOST_ACCOUNT
+Bsky_App_Password_Env: STRATOPOST_APP_PASSWORD
+
+# The json file with the quotes. If no path is given, then stratopost.py will
+# look in $XDG_CONFIG_HOME/stratopost/ if it's set, and ~/.config/stratopost/ if
+# not. 
+Quote_File: testQuotes.json
+
+# Additional post options. Setting a length limit longer than 300 may cause the
+# script to fail if a quote longer than the Bluesky post limit is selected. 
+Post_Hashtags: ""        # Any #hashtags to include. (e.g. "#bot #test")
+Post_Length_Limit: 300   # Only select quotes shorter than this value + hashtags
+
+# The bot will attempt to only use quotes that haven't been posted in the last
+# number of days as defined here. If there are no options that fit this
+# criteria, it will be ignored. 
+Days_Till_Repeat: 7
+
+# Log settings.
+Log_Level: 0             # 0 = off, 1 = errors only, 2 = verbose
+# Log file name (and optional path). If no path is given, then stratopost.py
+# will look in $XDG_STATE_HOME/stratopost/logs/ if it's set. If not then it will
+# default to ~/.local/state/stratopost/logs/.
+Log_File: stratopost.log
