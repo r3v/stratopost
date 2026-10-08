@@ -4,7 +4,7 @@
 #
 #  DESCRIPTION: A bot for posting quotes to bluesky.
 #
-#  VERSION:     v1.0d7
+#  VERSION:     v1.0d8
 #
 #  GITHUB:      https://github.com/r3v/stratopost
 #
@@ -100,6 +100,7 @@ if not QUOTE_FILE.is_absolute():
 
 BSKY_ACCOUNT_ENV = config["Bsky_Account_Env"]
 BSKY_APP_PASSWORD_ENV = config["Bsky_App_Password_Env"]
+POST_LENGTH_LIMIT = int(config["Post_Length_Limit"])
 
 # Retrieve bluesky account credentials from environment variables
 BSKY_ACCOUNT = os.getenv(BSKY_ACCOUNT_ENV)
@@ -132,7 +133,14 @@ try:
 			if missing:
 				raise ValueError(f"quote record missing key(s): {', '.join(missing)}")
 
-		quote_to_post = random.choice(quote_list)
+		eligible_quotes = [
+			record for record in quote_list
+			if int(record["Quote_Length"]) <= POST_LENGTH_LIMIT
+		]
+		if not eligible_quotes:
+			raise ValueError(f"No quotes fit Quote_Length <= Post_Length_Limit ({POST_LENGTH_LIMIT})")
+
+		quote_to_post = random.choice(eligible_quotes)
 
 		if args.dryrun:
 			print(f"Quote file check: Pass {QUOTE_FILE}")
